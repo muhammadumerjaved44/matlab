@@ -35,23 +35,26 @@ xlabel('Principal Component')
 ylabel('Variance Explained (%)')
 
 figure;
-plot(Score(:,1),Score(:,2),'+')
+plot(Score(:,2),Score(:,1),'+')
 xlabel('1st Principal Component')
 ylabel('2nd Principal Component')
+
+% varition in first component
+figure; plot(Score(:,1))
+xlabel('varition in first component');
+title('varition in first component');
 
 DS.Input=Score(:,1:redudim);
 DS.OutName=classNames;
 DS.Output=Label';
 
-%trainMdl = fitcsvm(DS.Input,DS.Output);
-
-CVSVMModel = fitcsvm(DS.Input,DS.Output,'Holdout',0.2,...
+% scale (DS.Input , [-1 1])
+CVSVMModel = fitcsvm(DS.Input,DS.Output,'HoldOut', 0.2,...
     'Standardize',true);
 
-% hingeLoss = resubLoss(CVSVMModel,'LossFun','Hinge')
 
-CompactSVMModel = CVSVMModel.Trained{1}; % Extract trained, compact classifier
-trainkfoldLoss = kfoldLoss(CVSVMModel);
+CompactSVMModel = CVSVMModel.Trained{1} % Extract trained, compact classifier
+trainkfoldLoss = kfoldLoss(CVSVMModel)
 
 % 
 
@@ -60,12 +63,12 @@ testInds = test(CVSVMModel.Partition);   % Extract the test indices
 XTest = DS.Input(testInds,:);
 YTest = DS.Output(testInds,:);
 
-hingeLoss = loss(CompactSVMModel,XTest,YTest,'LossFun','Hinge')
+hingeLoss = loss(CompactSVMModel,XTest,YTest,'LossFun', 'hinge')
 
 [label,score] = predict(CompactSVMModel,XTest);
 
 trueVSpredicted = table(YTest,label,score(:,2),'VariableNames',...
-    {'TrueLabel','PredictedLabel','Score'})
+    {'TrueLabel','PredictedLabel','Score'});
 
 ConfMat = confusionmat(YTest,label)
 
@@ -90,8 +93,9 @@ title('simple PCA and SVM')
 
 
 %% plot roc
-
-% mdlSVM = fitPosterior(CompactSVMModel,XTest,YTest);
-% [~,score_svm] = resubPredict(mdlSVM);
-% plotroc(targets,outputs)
-
+% performance curve for classifier output
+[perX,perY,~,AUC] = perfcurve(label,score(:,2),'catagory1');
+figure;plot(perX,perY);
+xlabel('False positive rate');
+ylabel('True positive rate');
+title('ROC for Classification by SVM');
