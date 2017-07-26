@@ -1,9 +1,9 @@
-function [features, classLables, classNames] = loadingData(dataFolder,folderNameC1, folderNameC2)
+function [dataSet] = loadingData(dataFolder)
 %% Load the Data from Directory
 % Input: set the folder name 
 % dataFolder = 'dataSet';
-% folderNameC1 = 'catagory1';
-% folderNameC2 = 'catagory-1';
+% folderNameC1 = '1';
+% folderNameC2 = '0';
 
 % Ouptus:
 % features: return the Feature Set in "Instances x Features"
@@ -22,9 +22,18 @@ for i=1:size(gcsDatabase,2)
         featureCount = featureCount + 1;
         currentimage = double((read(gcsDatabase(i),j)));
         features(featureCount,:) = reshape(currentimage,size(currentimage,1)*size(currentimage,2),1);
-        classLables{featureCount} = gcsDatabase(i).Description;    
+%         classLables{featureCount,:} = gcsDatabase(i).Description;    
     end
     classNames{i} = gcsDatabase(i).Description;
+    
+    
 end
+
+classLables(1:500,:)= 0;
+classLables(501:1000,:) = 1;
+
+dataSet.X = features;
+dataSet.Y = classLables;
+dataSet.Names = classNames;
 
 end 
