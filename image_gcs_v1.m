@@ -82,8 +82,23 @@ for j = 1 : length(Points)
         newimagename = [folder2 num2str(j) 'c-1.jpeg'];
         imwrite(I2,newimagename)
 end 
+figure; imshow([folder2 num2str(j) 'c-1.jpeg']);
+
+figure; imshow([folder1 num2str(i) 'c1.jpeg']);
 
 % testSVD();
+
+% for j = 1 : length(Points)/2
+%         rng('shuffle');
+% %         randomIntensity = randi([18]);
+%         randomIntensity = 210;
+%         I2 = Ib+randomIntensity;
+% %         I((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
+% %         figure;
+% %         imshow(I)
+%         newimagename = [folder2 num2str(j) 'c-1.jpeg'];
+%         imwrite(I2,newimagename)
+% end 
 
 
  
