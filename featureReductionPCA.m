@@ -1,4 +1,4 @@
-function [dataSet, info] = featureReductionPCA(features, redudim)
+function [dataSet, info] = featureReductionPCA(dataSet, redudim)
 %% Feature Reduction by using PCA 
 % Inputs
 % features: input the Feature Set in "Instances x Features"
@@ -12,42 +12,51 @@ function [dataSet, info] = featureReductionPCA(features, redudim)
 %                 info.pcaInputSzie = size(features,1);
 %                 info.pcaInputDim = size(features,2);
 
+X = dataSet.X;
+Y = dataSet.Y;
+
 info.pcaRedDim = redudim;
 info.DiminssionReducAlgo = 'PCA';
-info.pcaInputSzie = size(features,1);
-info.pcaInputDim = size(features,2);
+info.pcaInputSzie = size(X,1);
+info.pcaInputDim = size(X,2);
 
 
-[Coeff,Score,Latent,Tsquared,Explained] = pca(features);
+[Coeff,Score,Latent,Tsquared,Explained] = pca(X);
 
 figure;
 pareto(Explained)
 xlabel('Principal Component')
 ylabel('Variance Explained (%)')
 title('Principal Components vs Variance')
+saveas(gcf,['Noof_Principal_Components' num2str(info.pcaInputSzie)],'jpg')
 
-figure;
-plot(Score(:,2),Score(:,1),'+')
-xlabel('1st Principal Component')
-ylabel('2nd Principal Component')
+
+
 
 figure; plot(Score(:,1))
 title('varition in first component');
 
 DS.Input=Score(:,1:redudim);
+% DS.newLable(1:500,:)= 0;
+% DS.newLable(501:1000,:) = 1;
+
 % DS.OutName=classNames;
 % DS.Output=Label';
-DS.newLable(1:500,:)= 1;
-DS.newLable(501:1000,:) = 0;
-DS.inputandLables = [DS.Input DS.newLable];
+% DS.inputandLables = [DS.Input DS.newLable];
 
-[nrows, ncols] = size(DS.inputandLables);
+% [nrows, ncols] = size(DS.inputandLables);
+% 
+% X = DS.inputandLables(:,1:end-1);
 
-X = DS.inputandLables(:,1:end-1);
-
-dataSet.X = DS.inputandLables(:,1:end-1);
-dataSet.Y = DS.inputandLables(:,ncols);
+dataSet.X = Score(:,1:redudim);
+dataSet.Y = Y;
 tabulate(dataSet.Y)
+
+figure;
+gscatter(Score(:,1),Score(:,2),dataSet.Y,'gr','xo')
+xlabel('1st Principal Component')
+ylabel('2nd Principal Component')
+saveas(gcf,['PrincipalComponentsScatterPlot' num2str(info.pcaInputSzie)],'jpg')
 
 
 end
