@@ -35,9 +35,12 @@ xlabel('Principal Component')
 ylabel('Variance Explained (%)')
 
 figure;
-plot(Score(:,1),Score(:,2),'+')
+plot(Score(:,2),Score(:,1),'+')
 xlabel('1st Principal Component')
 ylabel('2nd Principal Component')
+
+% varition in first component
+figure; plot(Score(:,1))
 
 DS.Input=Score(:,1:redudim);
 DS.OutName=classNames;
