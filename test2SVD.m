@@ -121,7 +121,7 @@ for i = 1:1
     svmStruct = fitcsvm(train.X,train.Y, 'Standardize',true);
     
     [predictedLabels,score,cost]= predict(svmStruct, valid.X);
-    %     classperf(CP, train.Y, testidx)
+%     classperf(CP, train.Y, testidx)
     classperf(classPerformance, predictedLabels, validindices);
     classPerformance
     Accuracy = classPerformance.CorrectRate;
@@ -161,7 +161,6 @@ T2= table(ObsVsFeatures,FeatureReduction,RedcuedFreatureSet,...
     Train_Valid_Test_Total,Classification,DateTime);
 writetable(T2,'info.xlsx', 'Sheet',1, 'Range','C11')
 
- 
 
 hingeLoss = resubLoss(svmStruct,'LossFun','Hinge')
 
