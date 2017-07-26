@@ -52,14 +52,35 @@ rng('default');
 %                 TestSize: 200
 %                 Type: 'holdout'
 
-[partitionData, info.holdInfo]= dataPartitioningHoldout(reduDataSet,holdoutRatio);
 
-% seperating test and training data
+[partitionData, info.holdInfo, testindices]= dataPartitioningHoldout(dataSet,holdoutRatio);
 test.X = partitionData.X2input;
 test.Y = partitionData.Y2output;
 train.X = partitionData.X1input;
 train.Y = partitionData.Y1output;
 
+
+
+%% Feature Reduction by using PCA for training
+% Inputs
+% features: input the Feature Set in "Instances x Features"
+% redPcaDim = 10 %for selecting the no of componests form score matrix 
+
+% Outputs: 
+% reduDataSet: output the Feature Set as reduced datas set in "instances vs reduced Dim"
+% info.pcaInfo: hold the information as given below
+%                 info.pcaRedDim = redudim;
+%                 info.DiminssionReducAlgo = 'PCA';
+%                 info.pcaInputSzie = size(features,1);
+%                 info.pcaInputDim = size(features,2);
+
+[reduDataTraingSet, info.pcaTrainInfo] = featureReductionPCA(train, redPcaDim);
+% mydataSet = [reduDataSet.X reduDataSet.Y];
+
+
+
+
+%%
 for i = 1:1
     % Input:
     % Give the data set as input for partitioning
