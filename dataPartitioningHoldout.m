@@ -21,19 +21,17 @@ function [partitionData, info, indices]= dataPartitioningHoldout(dataSet,ratio)
 % return the indices of validation set/testing Set form the taining data 
 % and use in calculation of class performance 
 
-
-
 X = dataSet.X;
 Y = dataSet.Y;
 cv = cvpartition(Y, 'HoldOut', ratio);
 info.holdoutRatio = ratio;
+info.NumObservations= cv.NumObservations;
 info.NumTestSets= cv.NumTestSets;
 info.TrainSize= cv.TrainSize;
 info.TestSize= cv.TestSize;
 info.Type = cv.Type;
-partitionData.cv = cv;
 
-% seperate the data in to teest/validation and training set
+partitionData.cv = cv;
 partitionData.X1input = X(training(cv), :);
 partitionData.Y1output = Y(training(cv), :);
 indices = test(cv);
