@@ -104,24 +104,23 @@ for i = 1:1
     % return the indices of validation set/testing Set form the taining data 
     % and use in calculation of class performance 
 
-    [partitionDataVlidate, info.validInfo, validindices]= dataPartitioningHoldout(train,validationRatio);
+    [partitionDataVlidate, info.validInfo, validindices]= dataPartitioningHoldout(reduDataTraingSet,validationRatio);
     
     % seprating the validation and training set 
     valid.X = partitionDataVlidate.X2input;
     valid.Y = partitionDataVlidate.Y2output;
-    newtrain.X = partitionDataVlidate.X1input;
-    newtrain.Y = partitionDataVlidate.Y1output;
+    train.X = partitionDataVlidate.X1input;
+    train.Y = partitionDataVlidate.Y1output;
     
     % to calculate class performance input the all True trainging labeles
-    classPerformance = classperf(train.Y);
+    classPerformance = classperf(reduDataTraingSet.Y);
     
 %     MODEL=fitcsvm(X,Y) is an alternative syntax that accepts X as an
 %     N-by-P matrix of predictors with one row per observation and one column
 %     per predictor. Y is the response and is an array of N class labels. 
-    svmStruct = fitcsvm(newtrain.X,newtrain.Y, 'Standardize',true);
+    svmStruct = fitcsvm(train.X,train.Y, 'Standardize',true);
     
     [predictedLabels,score,cost]= predict(svmStruct, valid.X);
-
     %     classperf(CP, train.Y, testidx)
     classperf(classPerformance, predictedLabels, validindices);
     classPerformance
