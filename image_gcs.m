@@ -3,8 +3,8 @@ clear all; clc; close all;
 
 % you only have to set the folder name or use the same name
 dataFolder = 'dataSet';
-folderNameC1 = 'catagory1';
-folderNameC2 = 'catagory-1';
+folderNameC1 = '0';
+folderNameC2 = '1';
 
 % check directory if not created than creat it
 
@@ -39,7 +39,7 @@ Max = backSize-foreSize;
 
 % intensities level for foregraound and background
 backIntensity = 18;
-foreIntensity = 210;
+foreIntensity = 210-backIntensity;
 
 % Foregraond and Background size
 Ib = uint8(backIntensity*ones(backSize,backSize));
@@ -73,7 +73,9 @@ end
 % genrate images for other class -1
 for j = 1 : length(Points)
         rng('shuffle');
-        randomIntensity = randi([0 235]);
+%         randomIntensity = randi([18]);
+%         randomIntensity = 192;
+        randomIntensity = randi([30 255]);
         I2 = Ib+randomIntensity;
 %         I((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
 %         figure;
@@ -83,6 +85,18 @@ for j = 1 : length(Points)
 end 
 
 % testSVD();
+
+% for j = 1 : length(Points)/2
+%         rng('shuffle');
+% %         randomIntensity = randi([18]);
+%         randomIntensity = 210;
+%         I2 = Ib+randomIntensity;
+% %         I((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
+% %         figure;
+% %         imshow(I)
+%         newimagename = [folder2 num2str(j) 'c-1.jpeg'];
+%         imwrite(I2,newimagename)
+% end 
 
 
  
