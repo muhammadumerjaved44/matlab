@@ -39,7 +39,7 @@ Max = backSize-foreSize;
 
 % intensities level for foregraound and background
 backIntensity = 18;
-foreIntensity = 210-backIntensity;
+foreIntensity = 100-backIntensity;
 
 % Foregraond and Background size
 Ib = uint8(backIntensity*ones(backSize,backSize));
