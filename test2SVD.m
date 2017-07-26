@@ -223,5 +223,88 @@ plot(min(x),max(y),'r.','MarkerSize',20)
 text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
 xlabel('False positive rate')
 ylabel('True positive rate')
-title('ROC for Classification by SVM')
-saveas(gcf,'RocPlot','jpg')
+title('ROC for Classification by SVM of Training Set')
+saveas(gcf,'RocPlotTrain','jpg')
+
+
+%% %%%%%%%%%%%%%%%%%% TESTING the MODEL %%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Feature Reduction by using PCA for training
+% Inputs
+% features: input the Feature Set in "Instances x Features"
+% redPcaDim = 10 %for selecting the no of componests form score matrix 
+
+% Outputs: 
+% reduDataSet: output the Feature Set as reduced datas set in "instances vs reduced Dim"
+% info.pcaInfo: hold the information as given below
+%                 info.pcaRedDim = redudim;
+%                 info.DiminssionReducAlgo = 'PCA';
+%                 info.pcaInputSzie = size(features,1);
+%                 info.pcaInputDim = size(features,2);
+
+[reduDataTestSet, info.pcaTestInfo] = featureReductionPCA(test, redPcaDim);
+newTest.X =reduDataTestSet.X;
+newTest.Y =reduDataTestSet.Y;
+% mydataSet = [reduDataSet.X reduDataSet.Y];
+
+
+%%
+
+classTestPerformance = classperf(reduDataTestSet.Y);
+% svmStruct = fitcsvm(test.X,train.Y, 'Standardize',true);
+    
+[predictedTestLabels,testScore,testCost]= predict(svmStruct, newTest.X);
+%     classperf(CP, train.Y, testidx)
+% classperf(classTestPerformance, predictedTestLabels, testindices);
+% classTestPerformance
+% testAccuracy = classTestPerformance.CorrectRate;
+% testAccuracy_percnt = testAccuracy.*100;
+%     
+%     
+% %
+% testSensitivity = classTestPerformance.Sensitivity;
+% testSpecificity = classTestPerformance.Specificity;
+% testErrorRate = classTestPerformance.ErrorRate;
+
+testConfMat = confusionmat(newTest.Y,predictedTestLabels);
+
+
+[n,p] = size(newTest.X);
+isLabels = unique(newTest.Y);
+nLabels = numel(isLabels);
+[~,grpOOF] = ismember(predictedTestLabels,isLabels); 
+oofLabelMat = zeros(nLabels,n); 
+idxLinear = sub2ind([nLabels n],grpOOF,(1:n)'); 
+oofLabelMat(idxLinear) = 1; % Flags the row corresponding to the class 
+[~,grpY] = ismember(newTest.Y,isLabels); 
+YMat = zeros(nLabels,n); 
+idxLinearY = sub2ind([nLabels n],grpY,(1:n)'); 
+YMat(idxLinearY) = 1; 
+
+figure;
+plotconfusion(YMat,oofLabelMat);
+h = gca;
+h.XTickLabel = [isLabels; {' '}];
+h.YTickLabel = [isLabels; {' '}];
+title('Confusion Matrix on TestData')
+saveas(gcf,'ConfussionMatrixTest','jpg')
+
+
+
+%% plot roc
+
+[x,y,t,AUC] = perfcurve(newTest.Y,testScore(:,1),'0');
+
+figure; plot(x,y);
+% axis([XMIN XMAX YMIN YMAX])
+axis([-0.1 1.1 -0.1 1.1])
+hold on;
+plot(min(x),max(y),'r.','MarkerSize',20)
+text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
+xlabel('False positive rate')
+ylabel('True positive rate')
+title('ROC for Classification by SVM on TestData')
+saveas(gcf,'RocPlotTest','jpg')
+
