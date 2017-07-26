@@ -4,31 +4,11 @@ redPcaDim = 10;
 %% Load the Data from Directory
 % Inputs: set the folder name 
 % dataFolder = 'dataSet';
-% folderNameC1 = 'catagory1';
-% folderNameC2 = 'catagory-1';
 
 % Ouptus:
-% features: return the Feature Set in "Instances x Features"
-% classLables : returnt the class lables
-% classNames : return the unique name for the classes
+% dataSet: return the Feature Set in "Instances x Features"
 
-[features, classLables, classNames] = loadingData('dataSet','catagory1', 'catagory-1');
-
-%% Feature Reduction by using PCA 
-% Inputs
-% features: input the Feature Set in "Instances x Features"
-% redPcaDim = 10 %for selecting the no of componests form score matrix 
-
-% Outputs: 
-% reduDataSet: output the Feature Set as reduced datas set in "instances vs reduced Dim"
-% info.pcaInfo: hold the information as given below
-%                 info.pcaRedDim = redudim;
-%                 info.DiminssionReducAlgo = 'PCA';
-%                 info.pcaInputSzie = size(features,1);
-%                 info.pcaInputDim = size(features,2);
-
-[reduDataSet, info.pcaInfo] = featureReductionPCA(features, redPcaDim);
-% mydataSet = [reduDataSet.X reduDataSet.Y];
+[dataSet] = loadingData('dataSet');
 
 %% set the partition ratio 
 
