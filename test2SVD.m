@@ -162,8 +162,10 @@ T2= table(ObsVsFeatures,FeatureReduction,RedcuedFreatureSet,...
 writetable(T2,'info.xlsx', 'Sheet',1, 'Range','C11')
 
  
-hingeLoss = resubLoss(svmStruct,'LossFun','Hinge');
 
+hingeLoss = resubLoss(svmStruct,'LossFun','Hinge')
+
+% ConfMat = confusionmat(YTest,label)
 ConfMat = confusionmat(valid.Y,predictedLabels);
 
 % 
@@ -204,14 +206,14 @@ plotconfusion(YMat,oofLabelMat);
 h = gca;
 h.XTickLabel = [isLabels; {' '}];
 h.YTickLabel = [isLabels; {' '}];
-title('Confusion Matrix')
-saveas(gcf,'ConfussionMatrix','jpg')
+title('Confusion Matrix of Training Set')
+saveas(gcf,'ConfussionMatrixTrain','jpg')
 
 
 
 %% plot roc
 
-[x,y,t,AUC] = perfcurve(valid.Y,score(:,2),'1');
+[x,y,t,AUC] = perfcurve(valid.Y,score(:,1),'0');
 
 figure; plot(x,y);
 % axis([XMIN XMAX YMIN YMAX])
