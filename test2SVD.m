@@ -128,7 +128,7 @@ for i = 1:1
     Accuracy_percnt(i) = Accuracy.*100;
     
     
-    %%
+    %
     Sensitivity(i) = classPerformance.Sensitivity;
     Specificity(i) = classPerformance.Specificity;
     ErrorRate(i) = classPerformance.ErrorRate;
@@ -145,16 +145,14 @@ fprintf('accurecey is %d \n', MAX_ACCURECEY);
 
 
 
-
-
-writetable(struct2table(info.pcaInfo),'info.xlsx', 'Sheet',1, 'Range','C5')
+writetable(struct2table(info.pcaTrainInfo),'info.xlsx', 'Sheet',1, 'Range','C5')
 writetable(struct2table(info.validInfo),'info.xlsx', 'Sheet',1, 'Range','C7')
 writetable(struct2table(info.holdInfo),'info.xlsx', 'Sheet',1, 'Range','C9')
 
-ObsVsFeatures = getDiminssion(features, 2);
-FeatureReduction = cell({info.pcaInfo.DiminssionReducAlgo});
-RedcuedFreatureSet = getDiminssion(reduDataSet.X,2);
-Train_Valid_Test_Total = cell({num2str([info.validInfo.trainSzie info.validInfo.validSize info.holdInfo.TestSize ...
+ObsVsFeatures = getDiminssion(dataSet, 2);
+FeatureReduction = cell({info.pcaTrainInfo.DiminssionReducAlgo});
+RedcuedFreatureSet = getDiminssion(reduDataTraingSet.X,2);
+Train_Valid_Test_Total = cell({num2str([info.validInfo.TrainSize info.validInfo.TestSize info.holdInfo.TestSize ...
     info.holdInfo.NumObservations])});
 Classification = cell({svmStruct.ModelParameters.Method});
 DateTime = currentDateTime();
