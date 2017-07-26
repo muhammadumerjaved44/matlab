@@ -81,7 +81,7 @@ for j = 1 : length(Points)
 %         imshow(I)
         newimagename = [folder2 num2str(j) 'c-1.jpeg'];
         imwrite(I2,newimagename)
-end 
+end
 figure; imshow([folder2 num2str(j) 'c-1.jpeg']);
 
 figure; imshow([folder1 num2str(i) 'c1.jpeg']);
