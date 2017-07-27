@@ -1,5 +1,5 @@
 function [dataSet, info, Mean] = featureReductionPCA(dataSet, redudim)
-%% Feature Reduction by using PCA 
+%% Feature Reduction by using PCA
 % Inputs
 % features: input the Feature Set in "Instances x Features"
 % redPcaDim = 10 %for selecting the no of componests form score matrix 
