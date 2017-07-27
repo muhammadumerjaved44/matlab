@@ -20,7 +20,6 @@ info.DiminssionReducAlgo = 'PCA';
 info.pcaInputSzie = size(X,1);
 info.pcaInputDim = size(X,2);
 
-
 [Coeff,Score,Latent,Tsquared,Explained, Mean] = pca(X);
 
 figure;
@@ -29,9 +28,6 @@ xlabel('Principal Component')
 ylabel('Variance Explained (%)')
 title('Principal Components vs Variance')
 saveas(gcf,['Noof_Principal_Components' num2str(info.pcaInputSzie)],'jpg')
-
-
-
 
 figure; plot(Score(:,1))
 title('varition in first component');
@@ -57,6 +53,5 @@ gscatter(Score(:,1),Score(:,2),dataSet.Y,'gr','xo')
 xlabel('1st Principal Component')
 ylabel('2nd Principal Component')
 saveas(gcf,['PrincipalComponentsScatterPlot' num2str(info.pcaInputSzie)],'jpg')
-
 
 end
