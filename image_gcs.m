@@ -66,7 +66,7 @@ I = Ib;
 for i = 1 : length(Points)
         startPoint = Points(i,:);
         I1 = Ib;
-        I1((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
+        I1((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+randomForeIntensity(i)+If;
 %         figure;
 %         imshow(I)
         newimagename = [folder1 num2str(i) 'c1.jpeg'];
