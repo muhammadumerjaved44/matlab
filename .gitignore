@@ -1,6 +1,10 @@
 
-info\.xlsx
-
-*.asv
+dataSet/
 
 *.jpg
+
+*.txt
+
+*.md
+
+*.xlsx
