@@ -41,8 +41,14 @@ Max = backSize-foreSize;
 backIntensity = 18;
 foreIntensityR1 = 10;
 foreIntensityR2 = 100;
+
+foreIntensityR3 = 0;
+foreIntensityR4 = 255;
 % mixIntensity = foreIntensity+backIntensity;
-randomForeIntensity = randi([foreIntensityR1 foreIntensityR2], [numOfImage, 1]);
+randomForeIntensity1 = randi([foreIntensityR1 foreIntensityR2], [numOfImage, 1]);
+randomForeIntensity2 = randi([foreIntensityR3 foreIntensityR4], [numOfImage, 1]);
+
+
 
 % Foregraond and Background size
 Ib = uint8(backIntensity*ones(backSize,backSize));
