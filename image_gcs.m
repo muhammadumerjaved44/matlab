@@ -78,7 +78,7 @@ for j = 1 : length(Points)
         rng('shuffle');
 %         randomIntensity = randi([18]);
 %         randomIntensity = 192;
-        randomIntensity = randi([30 255]);
+        randomIntensity = randi([10 255]);
         I2 = Ib+randomIntensity;
 %         I((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
 %         figure;
