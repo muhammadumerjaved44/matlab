@@ -118,9 +118,10 @@ for i = 1:1
 %     MODEL=fitcsvm(X,Y) is an alternative syntax that accepts X as an
 %     N-by-P matrix of predictors with one row per observation and one column
 %     per predictor. Y is the response and is an array of N class labels. 
-    svmStruct = fitcsvm(train.X,train.Y, 'Standardize',true);
+    binTreeStruct = fitctree(train.X,train.Y);
     
-    [predictedLabels,score,cost]= predict(svmStruct, valid.X);
+    
+    [predictedLabels,score,cost]= predict(binTreeStruct, valid.X);
 %     classperf(CP, train.Y, testidx)
     classperf(classPerformance, predictedLabels, validindices);
     classPerformance
@@ -154,7 +155,7 @@ FeatureReduction = cell({info.pcaTrainInfo.DiminssionReducAlgo});
 RedcuedFreatureSet = getDiminssion(reduDataTraingSet.X,2);
 Train_Valid_Test_Total = cell({num2str([info.validInfo.TrainSize info.validInfo.TestSize info.holdInfo.TestSize ...
     info.holdInfo.NumObservations])});
-Classification = cell({svmStruct.ModelParameters.Method});
+Classification = cell({binTreeStruct.ModelParameters.Method});
 DateTime = currentDateTime();
 
 T2= table(ObsVsFeatures,FeatureReduction,RedcuedFreatureSet,...
@@ -162,7 +163,10 @@ T2= table(ObsVsFeatures,FeatureReduction,RedcuedFreatureSet,...
 writetable(T2,'info.xlsx', 'Sheet',1, 'Range','C11')
 
 
-hingeLoss = resubLoss(svmStruct,'LossFun','Hinge')
+view(binTreeStruct,'Mode','graph')
+
+
+Loss = resubLoss(binTreeStruct);
 
 % ConfMat = confusionmat(YTest,label)
 ConfMat = confusionmat(valid.Y,predictedLabels);
@@ -217,12 +221,12 @@ saveas(gcf,'ConfussionMatrixTrain','jpg')
 figure; plot(x,y);
 % axis([XMIN XMAX YMIN YMAX])
 axis([-0.1 1.1 -0.1 1.1])
-hold on;
-plot(min(x),max(y),'r.','MarkerSize',20)
-text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
+% hold on;
+% plot(min(x),max(y),'r.','MarkerSize',20)
+% text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
 xlabel('False positive rate')
 ylabel('True positive rate')
-title('ROC for Classification by SVM of Training Set')
+title('ROC for Classification by BinaryTree of Training Set')
 saveas(gcf,'RocPlotTrain','jpg')
 
 
@@ -254,7 +258,7 @@ newTest.Y =reduDataTestSet.Y;
 classTestPerformance = classperf(reduDataTestSet.Y);
 % svmStruct = fitcsvm(test.X,train.Y, 'Standardize',true);
     
-[predictedTestLabels,testScore,testCost]= predict(svmStruct, newTest.X);
+[predictedTestLabels,testScore,testCost]= predict(binTreeStruct, newTest.X);
 %     classperf(CP, train.Y, testidx)
 % classperf(classTestPerformance, predictedTestLabels, testindices);
 % classTestPerformance
@@ -299,11 +303,11 @@ saveas(gcf,'ConfussionMatrixTest','jpg')
 figure; plot(x,y);
 % axis([XMIN XMAX YMIN YMAX])
 axis([-0.1 1.1 -0.1 1.1])
-hold on;
-plot(min(x),max(y),'r.','MarkerSize',20)
-text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
+% hold on;
+% plot(min(x),max(y),'r.','MarkerSize',20)
+% text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
 xlabel('False positive rate')
 ylabel('True positive rate')
-title('ROC for Classification by SVM on TestData')
+title('ROC for Classification by BinaryTree on TestData')
 saveas(gcf,'RocPlotTest','jpg')
 
