@@ -39,17 +39,20 @@ Max = backSize-foreSize;
 
 % intensities level for foregraound and background
 backIntensity = 18;
-foreIntensity = 210-backIntensity;
+foreIntensityR1 = 10;
+foreIntensityR2 = 100;
+% mixIntensity = foreIntensity+backIntensity;
+randomForeIntensity = randi([foreIntensityR1 foreIntensityR2], [numOfImage, 1]);
 
 % Foregraond and Background size
 Ib = uint8(backIntensity*ones(backSize,backSize));
-If = uint8(foreIntensity*ones(foreSize,foreSize));
+If = uint8(ones(foreSize,foreSize));
 
 figure;
 imshow(Ib)
 
-figure;
-imshow(If)
+% figure;
+% imshow(If)
 
 %% Overlaped Images
 % randomely set the forgrodund position
