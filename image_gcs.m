@@ -63,16 +63,19 @@ imshow(Ib)
 %% Overlaped Images
 % randomely set the forgrodund position
 rng('shuffle');
-Points = randi([0 Max],[numOfImage,2]);
+Points1 = randi([0 Max],[numOfImage,2]);
+Points2 = randi([0 Max],[numOfImage,2]);
 
 % Resultant image initialize
 I = Ib;
 
 % genrate images for other class 1
-for i = 1 : length(Points)
-        startPoint = Points(i,:);
+for i = 1 : length(Points1)
+        startPointfore1 = Points1(i,:);
+        startPointfore2 = Points2(i,:);
         I1 = Ib;
-        I1((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+randomForeIntensity(i)+If;
+        I1((1:size(If,1))+startPointfore1(1),(1:size(If,2))+startPointfore1(2),:) = backIntensity+randomForeIntensity1(i)+If;
+        I1((1:size(If,1))+startPointfore2(1),(1:size(If,2))+startPointfore2(2),:) = backIntensity+randomForeIntensity2(i)+If;
 %         figure;
 %         imshow(I)
         newimagename = [folder1 num2str(i) 'c1.jpeg'];
