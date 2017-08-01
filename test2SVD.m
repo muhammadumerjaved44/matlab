@@ -217,9 +217,9 @@ saveas(gcf,'ConfussionMatrixTrain','jpg')
 figure; plot(x,y);
 % axis([XMIN XMAX YMIN YMAX])
 axis([-0.1 1.1 -0.1 1.1])
-hold on;
-plot(min(x),max(y),'r.','MarkerSize',20)
-text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
+% hold on;
+% plot(min(x),max(y),'r.','MarkerSize',20)
+% text(min(x)+0.02,max(y)-0.02,['(' num2str(min(x)) ',' num2str(max(y)) ')'])
 xlabel('False positive rate')
 ylabel('True positive rate')
 title('ROC for Classification by SVM of Training Set')
