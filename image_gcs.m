@@ -42,14 +42,14 @@ backIntensity = 18;
 foreIntensity = 210-backIntensity;
 
 % Foregraond and Background size
-Ib = uint8(backIntensity*ones(backSize,backSize));
-If = uint8(foreIntensity*ones(foreSize,foreSize));
+% Ib = uint8(backIntensity*ones(backSize,backSize));
+% If = uint8(foreIntensity*ones(foreSize,foreSize));
 
-figure;
-imshow(Ib)
-
-figure;
-imshow(If)
+% figure;
+% imshow(Ib)
+% 
+% figure;
+% imshow(If)
 
 %% Overlaped Images
 % randomely set the forgrodund position
@@ -57,15 +57,22 @@ rng('shuffle');
 Points = randi([0 Max],[numOfImage,2]);
 
 % Resultant image initialize
-I = Ib;
+% I = Ib;
 
 % genrate images for other class 1
 for i = 1 : length(Points)
         startPoint = Points(i,:);
+        backrandomIntensity = randi([0 backIntensity]);
+        frontrandomIntensity = randi([0 foreIntensity]);
+        Ib = uint8(backrandomIntensity*ones(backSize,backSize));
+        If = uint8(frontrandomIntensity*ones(foreSize,foreSize));
+        
         I1 = Ib;
-        I1((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
+        I1((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backrandomIntensity+If;
 %         figure;
 %         imshow(I)
+        I1 = imnoise(I1,'speckle',0.02);
+        I1 = imcomplement(I1);
         newimagename = [folder1 num2str(i) 'c1.jpeg'];
         imwrite(I1,newimagename)
 end 
