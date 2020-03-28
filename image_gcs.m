@@ -82,11 +82,12 @@ for j = 1 : length(Points)
         rng('shuffle');
 %         randomIntensity = randi([18]);
 %         randomIntensity = 192;
-        randomIntensity = randi([30 255]);
+        randomIntensity = randi([0 255]);
         I2 = Ib+randomIntensity;
 %         I((1:size(If,1))+startPoint(1),(1:size(If,2))+startPoint(2),:) = backIntensity+If;
 %         figure;
 %         imshow(I)
+        I2 = imnoise(I2,'speckle',0.02);
         newimagename = [folder2 num2str(j) 'c-1.jpeg'];
         imwrite(I2,newimagename)
 end 
