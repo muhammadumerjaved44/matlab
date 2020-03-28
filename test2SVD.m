@@ -145,9 +145,9 @@ fprintf('accurecey is %d \n', MAX_ACCURECEY);
 
 
 
-writetable(struct2table(info.pcaTrainInfo),'info.xlsx', 'Sheet',1, 'Range','C5')
-writetable(struct2table(info.validInfo),'info.xlsx', 'Sheet',1, 'Range','C7')
-writetable(struct2table(info.holdInfo),'info.xlsx', 'Sheet',1, 'Range','C9')
+% writetable(struct2table(info.pcaTrainInfo),'info.xlsx', 'Sheet',1, 'Range','C5')
+% writetable(struct2table(info.validInfo),'info.xlsx', 'Sheet',1, 'Range','C7')
+% writetable(struct2table(info.holdInfo),'info.xlsx', 'Sheet',1, 'Range','C9')
 
 ObsVsFeatures = getDiminssion(dataSet, 2);
 FeatureReduction = cell({info.pcaTrainInfo.DiminssionReducAlgo});
@@ -159,7 +159,7 @@ DateTime = currentDateTime();
 
 T2= table(ObsVsFeatures,FeatureReduction,RedcuedFreatureSet,...
     Train_Valid_Test_Total,Classification,DateTime);
-writetable(T2,'info.xlsx', 'Sheet',1, 'Range','C11')
+% writetable(T2,'info.xlsx', 'Sheet',1, 'Range','C11')
 
 
 hingeLoss = resubLoss(svmStruct,'LossFun','Hinge')
